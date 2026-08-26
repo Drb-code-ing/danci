@@ -1,5 +1,9 @@
-import { SignInPage } from "../admin-app";
+import { redirect } from "next/navigation";
+import { getCurrentUser, hasAdminUsers } from "@/lib/auth";
+import { SignInPage } from "../auth-pages";
 
-export default function Page() {
+export default async function Page() {
+  if (!(await hasAdminUsers())) redirect("/signup");
+  if (await getCurrentUser()) redirect("/books");
   return <SignInPage />;
 }

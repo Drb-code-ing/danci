@@ -1,12 +1,7 @@
-"use client";
+import { redirect } from "next/navigation";
+import { getCurrentUser, hasAdminUsers } from "@/lib/auth";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-
-export default function Home() {
-  const router = useRouter();
-  useEffect(() => {
-    router.replace(localStorage.getItem("danci-auth") ? "/books" : "/signin");
-  }, [router]);
-  return <div className="loading">正在进入词记后台…</div>;
+export default async function Home() {
+  if (!(await hasAdminUsers())) redirect("/signup");
+  redirect((await getCurrentUser()) ? "/books" : "/signin");
 }
