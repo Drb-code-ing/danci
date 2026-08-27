@@ -1,4 +1,5 @@
 import { bigint, index, integer, json, pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 
 export const userRole = pgEnum("user_role", ["super_admin", "content_admin"]);
 export const userStatus = pgEnum("user_status", ["active", "disabled"]);
@@ -30,5 +31,17 @@ export const words = pgTable("words", {
   bookId: text("bookId"),
 });
 
+export const books = pgTable("books", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  bookId: text("book_id").notNull().unique(),
+  title: text("title").notNull(),
+  wordCount: integer("word_count").notNull().default(0),
+  coverUrl: text("cover_url"),
+  tags: text("tags").array().notNull().default(sql`'{}'::text[]`),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export type User = typeof users.$inferSelect;
 export type Word = typeof words.$inferSelect;
+export type Book = typeof books.$inferSelect;

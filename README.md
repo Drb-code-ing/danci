@@ -104,3 +104,6 @@ ai 写一段格式转换脚本(开销小)，本地运行
 ## 让AI 了解supabase 有books 表
 - 本地建schema
 - 后台图书业务
+
+## cascade 级联删除
+外键说明后面加上 on delete cascade

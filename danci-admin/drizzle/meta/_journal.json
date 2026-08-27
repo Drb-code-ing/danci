@@ -8,6 +8,13 @@
       "when": 1787746414380,
       "tag": "0000_charming_warhawk",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1787818422076,
+      "tag": "0001_striped_killraven",
+      "breakpoints": true
     }
   ]
 }
