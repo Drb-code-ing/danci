@@ -1,4 +1,4 @@
-import { index, pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { bigint, index, integer, json, pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 export const userRole = pgEnum("user_role", ["super_admin", "content_admin"]);
 export const userStatus = pgEnum("user_status", ["active", "disabled"]);
@@ -22,4 +22,13 @@ export const sessions = pgTable("admin-session", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 }, (table) => [index("admin_session_user_id_idx").on(table.userId), index("admin_session_expires_at_idx").on(table.expiresAt)]);
 
+export const words = pgTable("words", {
+  id: bigint("id", { mode: "number" }).primaryKey().generatedByDefaultAsIdentity(),
+  wordRank: integer("wordRank"),
+  headWord: text("headWord"),
+  content: json("content"),
+  bookId: text("bookId"),
+});
+
 export type User = typeof users.$inferSelect;
+export type Word = typeof words.$inferSelect;
