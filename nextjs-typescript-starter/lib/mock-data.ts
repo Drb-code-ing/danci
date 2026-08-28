@@ -25,10 +25,3 @@ export type Book = {
   coverUrl: string | null;
   tags: string[];
 };
-
-// "我的"页面在接入真实数据前，先用这份 mock 书单渲染学习进度
-export const books: Book[] = [
-  { id: 'primary-3', bookId: 'PEPXiaoXue3_1', title: '小学英语三年级上册', wordCount: 500, coverUrl: 'linear-gradient(145deg, #ffb38a, #f36f56)', tags: ['小学', '入门'] },
-  { id: 'primary-6', bookId: 'PEPXiaoXue6_1', title: '小学英语六年级上册', wordCount: 600, coverUrl: 'linear-gradient(145deg, #8bd8cf, #4c9e9a)', tags: ['小学', '进阶'] },
-  { id: 'junior', bookId: 'CET4_Core', title: '大学英语四级核心词', wordCount: 800, coverUrl: 'linear-gradient(145deg, #b9a4e9, #6650a8)', tags: ['四级', '考试'] },
-];
