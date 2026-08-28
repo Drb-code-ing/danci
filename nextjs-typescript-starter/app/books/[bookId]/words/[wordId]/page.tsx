@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
+import { getWordsByBook, mapDbWord } from 'app/db';
 import { AppShell } from '@/components/app-shell';
-import { getBook, getWords, type Word } from '@/lib/mock-data';
+import type { Word } from '@/lib/mock-data';
 
-export default function WordDetailPage({ params }: { params: { bookId: string; wordId: string } }) {
-  getBook(params.bookId);
-  const list = getWords(params.bookId);
-  const word: Word | undefined = list.find((item) => String(item.id) === params.wordId) ?? list[0];
+export default async function WordDetailPage({ params }: { params: { bookId: string; wordId: string } }) {
+  const rows = await getWordsByBook(params.bookId);
+  const row = rows.find((item) => String(item.id) === params.wordId) ?? rows[0];
+  const word: Word | undefined = row ? mapDbWord(row) : undefined;
 
   if (!word) {
     return <AppShell showNav={false}><div className="detail-content"><p className="empty-state">没有找到该单词</p></div></AppShell>;

@@ -40,5 +40,13 @@ export function PageHeader({ title, back = false, right }: { title: string; back
 }
 
 export function Cover({ book }: { book: Book }) {
-  return <div className="book-cover" style={{ background: book.coverUrl }}><BookOpen size={25} /><span>{book.tags[0]}</span></div>;
+  const url = book.coverUrl;
+  const isImage = !!url && /^(https?:\/\/|\/|data:)/.test(url);
+  return <div className="book-cover" style={!isImage && url ? { background: url } : url ? undefined : { background: 'linear-gradient(145deg, #d7cfc4, #a89a88)' }}>
+    {isImage
+      // 封面 URL 由后台任意输入，域名不固定，不适用 next/image 白名单
+      // eslint-disable-next-line @next/next/no-img-element
+      ? <img src={url!} alt={book.title} />
+      : <><BookOpen size={25} /><span>{book.tags[0] ?? '词书'}</span></>}
+  </div>;
 }

@@ -1,9 +1,11 @@
 import { redirect } from 'next/navigation';
-import { getBook, getWords } from '@/lib/mock-data';
+import { getBookByBookId, getWordsByBook, mapDbWord } from 'app/db';
 import LearningClient from './learning-client';
 
-export default function LearningPage({ params }: { params: { bookId: string } }) {
-  const book = getBook(params.bookId); const list = getWords(params.bookId);
+export default async function LearningPage({ params }: { params: { bookId: string } }) {
+  const book = await getBookByBookId(params.bookId);
+  if (!book) redirect('/');
+  const list = (await getWordsByBook(params.bookId)).map(mapDbWord);
   if (!list.length) redirect('/');
   return <LearningClient book={book} words={list} />;
 }

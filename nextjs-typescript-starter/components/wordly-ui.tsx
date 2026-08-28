@@ -3,7 +3,7 @@
 import { FormEvent, useState } from 'react';
 import { ArrowRight, LockKeyhole, Mail, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { books, type Book } from '@/lib/mock-data';
+import type { Book } from '@/lib/mock-data';
 import { Cover } from '@/components/app-shell';
 
 export function BookRow({ book, progress = 0, onSelect }: { book: Book; progress?: number; onSelect?: () => void }) {
@@ -11,7 +11,7 @@ export function BookRow({ book, progress = 0, onSelect }: { book: Book; progress
   const go = onSelect ?? (() => router.push(`/books/${book.bookId}`));
   return <button className="book-row" onClick={go}>
     <Cover book={book} />
-    <span className="book-copy"><strong>{book.title}</strong><small>{book.wordCount} 个单词 · {book.tags.join(' / ')}</small>{progress > 0 && <span className="mini-progress"><i style={{ width: `${Math.min(progress / book.wordCount * 100, 100)}%` }} /></span>}</span>
+    <span className="book-copy"><strong>{book.title}</strong><small>{book.wordCount} 个单词{book.tags.length ? ` · ${book.tags.join(' / ')}` : ''}</small>{progress > 0 && <span className="mini-progress"><i style={{ width: `${Math.min(progress / book.wordCount * 100, 100)}%` }} /></span>}</span>
     <ArrowRight className="row-arrow" size={18} />
   </button>;
 }
@@ -39,4 +39,3 @@ export function AuthModal({ open, onClose, onSuccess }: { open: boolean; onClose
 }
 
 export const getBookProgress = (book: Book, progress: Record<string, number>) => progress[book.bookId] ?? 0;
-export { books };
